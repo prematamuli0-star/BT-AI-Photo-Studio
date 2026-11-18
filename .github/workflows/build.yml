@@ -26,7 +26,7 @@ jobs:
           gradle-version: '8.9'
 
       - name: Extract Source
-        run: unzip -q BT_AI_Photo_Studio_Source_v1.zip -d .
+        run: unzip -q BT_AI_Photo_Studio_Source_v2.zip -d .
 
       - name: Build APK and AAB
         run: |
