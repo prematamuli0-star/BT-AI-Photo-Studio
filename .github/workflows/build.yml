@@ -1,0 +1,41 @@
+
+name: BT AI Photo Studio Build
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.9'
+
+      - name: Extract Source
+        run: unzip -q BT_AI_Photo_Studio_Source_v1.zip -d .
+
+      - name: Build APK and AAB
+        run: |
+          gradle -p BT_AI_Photo_Studio assembleDebug bundleRelease
+
+      - name: Upload APK and AAB
+        uses: actions/upload-artifact@v4
+        with:
+          name: BT-AI-Photo-Studio-Build
+          path: |
+            BT_AI_Photo_Studio/app/build/outputs/apk/debug/*.apk
+            BT_AI_Photo_Studio/app/build/outputs/bundle/release/*.aab
